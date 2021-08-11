@@ -8,3 +8,4 @@ This application takes an array of objects (students) and creates a paginated li
 
 - showPage(studentList, pageNumber)
 - addPagination(studentList)
+- searchBox(data)
