@@ -85,48 +85,27 @@ const searchBox = (data) => {
   header.insertAdjacentHTML("beforeend", html);
 
   // put all names in an array
-  let studentNames = [];
-  for (let i = 0; i < data.length; i++) {
-    let student = data[i];
 
-    let studentName = student.name.first + " " + student.name.last;
-
-    studentNames.push(studentName.toLowerCase());
-  }
   // get search input
 
   let search = document.querySelector("#search");
   let searchValue = "";
-  let studentSearch = [];
   let searchResults = [];
   search.addEventListener("keyup", (e) => {
     searchValue = e.target.value;
 
-    console.log(searchValue);
-    searchResults = studentNames.filter((x) => x.includes(searchValue));
+    searchResults = data.filter((x) => {
+      let fullName = x.name.first.toLowerCase() + x.name.last.toLowerCase();
 
-    const filterItems = (arr, query) => {
-      let item = arr.filter(
-        (el) => el.name.first.toLowerCase().indexOf(query.toLowerCase()) !== -1
-      );
-    };
+      if (fullName.includes(searchValue)) {
+        searchResults.push(x);
 
-    for (let i = 0; i < searchResults.length; i++) {
-      let split = searchResults[i].split(" ");
-      firstName = split[0].toLowerCase();
-      let lastName = split[1].toLowerCase();
-      let objectReturn = [];
-
-      /*let newArray = data.filter(function (el) {
-        return (
-          el.name.first.toLowerCase() === firstName &&
-          el.name.last.toLowerCase() === lastName
-        );
-      
-      });
-      console.log(newArray); */
-    }
-    console.log(searchResults); //creates an array of first and last names but not the object
+        showPage(searchResults, 1);
+        window.addEventListener("load", function () {
+          console.log(searchResults);
+        });
+      }
+    });
   });
 };
 
