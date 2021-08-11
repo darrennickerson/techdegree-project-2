@@ -9,13 +9,13 @@ For assistance:
    Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
 */
 
-// createLi();
 /*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
 */
 
 const numberPerpage = 9;
+const ul = document.querySelector(".link-list");
 
 const showPage = (studentList, pageNumber) => {
   const ul = document.querySelector(".student-list");
@@ -49,20 +49,27 @@ Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
 */
 
-const ul = document.querySelector(".link-list");
-const addPagination = (data) => {
-  pageNumbers = Math.ceil(data.length / numberPerpage);
+const addPagination = (studentList) => {
+  // Determines the number of pages from the length of array and number per page
+  pageNumbers = Math.ceil(studentList.length / numberPerpage);
 
   for (let i = 1; i < pageNumbers + 1; i++) {
     const li = document.createElement("li");
     ul.appendChild(li);
-    li.innerHTML = `<button type="button">${i}</button> `; //add active class
+    li.innerHTML = `<button type="button">${i}</button> `;
   }
+  const firstLi = ul.firstElementChild.firstElementChild;
+  firstLi.className = "active";
 
   ul.addEventListener("click", (e) => {
-    let number = e.target.textContent;
-    showPage(data, number);
-    window.scrollTo(0, 0);
+    if (e.target.tagName === "BUTTON") {
+      const activeClass = document.querySelector(".active");
+      activeClass.className = "";
+      e.target.className = "active";
+      let pageNumber = e.target.textContent;
+      showPage(data, pageNumber);
+      window.scrollTo(0, 0);
+    }
   });
 };
 
@@ -90,30 +97,37 @@ const searchBox = (data) => {
 
   let search = document.querySelector("#search");
   let searchValue = "";
+  let studentSearch = [];
+  let searchResults = [];
   search.addEventListener("keyup", (e) => {
     searchValue = e.target.value;
 
     console.log(searchValue);
-    let searchResults = [];
     searchResults = studentNames.filter((x) => x.includes(searchValue));
-    let objects = [];
-    let firstName;
-    let lastName;
-    if (searchResults.length < data.length) {
-      console.log(`This is it ${searchResults.length}`);
-      for (let i = 0; i < searchResults.length; i++) {
-        let split = searchResults[i].split(" ");
-        firstName = split[0];
-        let lastName = split[1];
-      }
-      let object = data.find(
-        (obj) => obj.name.first.toLowerCase() === firstName
-      );
-      console.log(object);
-    }
-  });
 
-  console.log(studentNames);
+    const filterItems = (arr, query) => {
+      let item = arr.filter(
+        (el) => el.name.first.toLowerCase().indexOf(query.toLowerCase()) !== -1
+      );
+    };
+
+    for (let i = 0; i < searchResults.length; i++) {
+      let split = searchResults[i].split(" ");
+      firstName = split[0].toLowerCase();
+      let lastName = split[1].toLowerCase();
+      let objectReturn = [];
+
+      /*let newArray = data.filter(function (el) {
+        return (
+          el.name.first.toLowerCase() === firstName &&
+          el.name.last.toLowerCase() === lastName
+        );
+      
+      });
+      console.log(newArray); */
+    }
+    console.log(searchResults); //creates an array of first and last names but not the object
+  });
 };
 
 // Call functions
