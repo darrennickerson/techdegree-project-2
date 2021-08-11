@@ -1,28 +1,20 @@
 /*
 Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
-*/
 
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
-
-/*
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
 */
 
 const numberPerpage = 9;
-const ul = document.querySelector(".link-list");
+const ulStudent = document.querySelector(".student-list");
+const ulLink = document.querySelector(".link-list");
 
 const showPage = (studentList, pageNumber) => {
-  const ul = document.querySelector(".student-list");
   pageNumber = parseInt(pageNumber);
   startIndex = pageNumber * numberPerpage - numberPerpage;
   endIndex = pageNumber * numberPerpage;
-  ul.innerHTML = "";
+  ulStudent.innerHTML = "";
 
   for (let i = 0; i < studentList.length; i++) {
     if (i >= startIndex && i < endIndex) {
@@ -39,7 +31,7 @@ const showPage = (studentList, pageNumber) => {
                         </div>
                      </li> `;
 
-      ul.insertAdjacentHTML("beforeend", html);
+      ulStudent.insertAdjacentHTML("beforeend", html);
     }
   }
 };
@@ -55,13 +47,13 @@ const addPagination = (studentList) => {
 
   for (let i = 1; i < pageNumbers + 1; i++) {
     const li = document.createElement("li");
-    ul.appendChild(li);
+    ulLink.appendChild(li);
     li.innerHTML = `<button type="button">${i}</button> `;
   }
-  const firstLi = ul.firstElementChild.firstElementChild;
+  const firstLi = ulLink.firstElementChild.firstElementChild;
   firstLi.className = "active";
 
-  ul.addEventListener("click", (e) => {
+  ulLink.addEventListener("click", (e) => {
     if (e.target.tagName === "BUTTON") {
       const activeClass = document.querySelector(".active");
       activeClass.className = "";
@@ -83,29 +75,31 @@ const searchBox = (data) => {
  </label>`;
   const header = document.querySelector(".header");
   header.insertAdjacentHTML("beforeend", html);
-
-  // put all names in an array
-
-  // get search input
-
   let search = document.querySelector("#search");
   let searchValue = "";
   let searchResults = [];
+  let studentObjectArray = [];
   search.addEventListener("keyup", (e) => {
     searchValue = e.target.value;
 
+    // Pick out the students who match the search results
     searchResults = data.filter((x) => {
       let fullName = x.name.first.toLowerCase() + x.name.last.toLowerCase();
 
-      if (fullName.includes(searchValue)) {
+      // if the student matches put them into an array
+      if (fullName.includes(searchValue.toLowerCase())) {
         searchResults.push(x);
-
+        studentObjectArray = searchResults;
         showPage(searchResults, 1);
-        window.addEventListener("load", function () {
-          console.log(searchResults);
-        });
+        ulLink.innerHTML = "";
+        addPagination(studentObjectArray);
+      }
+      //If there are no search matches
+      if (studentObjectArray.length === 0 || studentObjectArray.length === 42) {
+        ulStudent.innerHTML = `<h1>No Results</h1> <p>Try your search again or <a href="/">Go Back</a></p>`;
       }
     });
+    console.log(studentObjectArray);
   });
 };
 
