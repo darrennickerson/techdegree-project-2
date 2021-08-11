@@ -99,6 +99,7 @@ const searchBox = (data) => {
       //If there are no search matches
       if (studentObjectArray.length === 0 || studentObjectArray.length === 42) {
         ulStudent.innerHTML = `<h1>No Results</h1> <p>Try your search again or <a href="/">Go Back</a></p>`;
+        ulLink.innerHTML = "";
       }
       if (searchValue === "") {
         showPage(data, 1);
