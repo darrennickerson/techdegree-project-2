@@ -59,7 +59,7 @@ const addPagination = (studentList) => {
       activeClass.className = "";
       e.target.className = "active";
       let pageNumber = e.target.textContent;
-      showPage(data, pageNumber);
+      showPage(studentList, pageNumber);
       window.scrollTo(0, 0);
     }
   });
@@ -98,8 +98,10 @@ const searchBox = (data) => {
       if (studentObjectArray.length === 0 || studentObjectArray.length === 42) {
         ulStudent.innerHTML = `<h1>No Results</h1> <p>Try your search again or <a href="/">Go Back</a></p>`;
       }
+      if (searchValue === "") {
+        showPage(data, 1);
+      }
     });
-    console.log(studentObjectArray);
   });
 };
 
