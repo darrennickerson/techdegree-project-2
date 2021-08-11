@@ -104,7 +104,6 @@ const searchBox = (data) => {
         showPage(data, 1);
       }
     });
-    console.log(studentObjectArray);
   });
 };
 
