@@ -81,6 +81,7 @@ const searchBox = (data) => {
   let studentObjectArray = [];
   search.addEventListener("keyup", (e) => {
     searchValue = e.target.value;
+    studentObjectArray = [];
 
     // Pick out the students who match the search results
     searchResults = data.filter((x) => {
@@ -94,6 +95,7 @@ const searchBox = (data) => {
         ulLink.innerHTML = "";
         addPagination(studentObjectArray);
       }
+
       //If there are no search matches
       if (studentObjectArray.length === 0 || studentObjectArray.length === 42) {
         ulStudent.innerHTML = `<h1>No Results</h1> <p>Try your search again or <a href="/">Go Back</a></p>`;
@@ -102,6 +104,7 @@ const searchBox = (data) => {
         showPage(data, 1);
       }
     });
+    console.log(studentObjectArray);
   });
 };
 
