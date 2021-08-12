@@ -103,6 +103,7 @@ const searchBox = (data) => {
       }
       if (searchValue === "") {
         showPage(data, 1);
+        addPagination(data);
       }
     });
   });
